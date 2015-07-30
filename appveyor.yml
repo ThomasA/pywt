@@ -42,7 +42,10 @@ install:
   - "%CMD_IN_ENV% python setup.py bdist_wheel bdist_wininst"
   - ps: "ls dist"
 
-  # Install the genreated wheel package to test it
+  # Setuptools too old on Appveyor, messes up PEP 440 version string (replaces
+  # + with -) which prevents pip from installing the built wheel.
+  - "pip install -U --no-deps setuptools"
+  # Install the generated wheel package to test it
   - "pip install --pre --no-index --find-links dist/ PyWavelets"
 
 # Not a .NET project, we build pywt in the install step instead
