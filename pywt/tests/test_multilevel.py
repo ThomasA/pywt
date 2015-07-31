@@ -74,7 +74,7 @@ def test_swt_iswt_integration():
         X = np.arange(input_length)
         coeffs = pywt.swt(X, current_wavelet, max_level)
         Y = pywt.iswt(coeffs, current_wavelet)
-        assert_allclose(X, Y, rtol=1e-5, atol=1e-7)
+        assert_allclose(Y, X, rtol=1e-5, atol=1e-7)
 
 
 def test_wavedec2():
