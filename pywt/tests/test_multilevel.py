@@ -30,10 +30,12 @@ def test_swt_decomposition():
     x = [3, 7, 1, 3, -2, 6, 4, 6]
     db1 = pywt.Wavelet('db1')
     (cA2, cD2), (cA1, cD1) = pywt.swt(x, db1, level=2)
-    assert_allclose(cA1, [7.07106781, 5.65685425, 2.82842712, 0.70710678,
-                          2.82842712, 7.07106781, 7.07106781, 6.36396103])
-    assert_allclose(cD1, [-2.82842712, 4.24264069, -1.41421356, 3.53553391,
-                          -5.65685425, 1.41421356, -1.41421356, 2.12132034])
+    expected_cA1 = [7.07106781, 5.65685425, 2.82842712, 0.70710678,
+                    2.82842712, 7.07106781, 7.07106781, 6.36396103]
+    assert_allclose(cA1, expected_cA1)
+    expected_cD1 = [-2.82842712, 4.24264069, -1.41421356, 3.53553391,
+                    -5.65685425, 1.41421356, -1.41421356, 2.12132034]
+    assert_allclose(cD1, expected_cD1)
     expected_cA2 = [7, 4.5, 4, 5.5, 7, 9.5, 10, 8.5]
     assert_allclose(cA2, expected_cA2, rtol=1e-12)
     expected_cD2 = [3, 3.5, 0, -4.5, -3, 0.5, 0, 0.5]
@@ -48,6 +50,7 @@ def test_swt_decomposition():
     coeffs = pywt.swt(x, db1)
     assert_(len(coeffs) == 3)
     assert_(pywt.swt_max_level(len(x)) == 3)
+
 
 def test_swt_iswt_integration():
     """
@@ -72,6 +75,7 @@ def test_swt_iswt_integration():
         coeffs = pywt.swt(X, current_wavelet, max_level)
         Y = pywt.iswt(coeffs, current_wavelet)
         assert_allclose(X, Y, rtol=1e-5, atol=1e-7)
+
 
 def test_wavedec2():
     coeffs = pywt.wavedec2(np.ones((4, 4)), 'db1')
