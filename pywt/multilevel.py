@@ -10,13 +10,13 @@ and Inverse Discrete Wavelet Transform.
 
 from __future__ import division, print_function, absolute_import
 
-__all__ = ['wavedec', 'waverec', 'wavedec2', 'waverec2', 'iswt', 'iswt2']
-
 import numpy as np
 
 from ._pywt import Wavelet
 from ._pywt import dwt, idwt, dwt_max_level
 from .multidim import dwt2, idwt2
+
+__all__ = ['wavedec', 'waverec', 'wavedec2', 'waverec2', 'iswt', 'iswt2']
 
 
 def wavedec(data, wavelet, mode='sym', level=None):
@@ -221,6 +221,7 @@ def waverec2(coeffs, wavelet, mode='sym'):
 
     return a
 
+
 def iswt(coeffs, wavelet):
     """
     Multilevel 1D Inverse Discrete Stationary Wavelet Transform.
@@ -244,15 +245,15 @@ def iswt(coeffs, wavelet):
     array([ 1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.])
     """
 
-    output = coeffs[0][0].copy() # Avoid modification of input data
+    output = coeffs[0][0].copy()  # Avoid modification of input data
 
-    #num_levels, equivalent to the decomposition level, n
+    # num_levels, equivalent to the decomposition level, n
     num_levels = len(coeffs)
     for j in range(num_levels,0,-1):
         step_size = int(pow(2, j-1))
         last_index = step_size
         _, cD = coeffs[num_levels - j]
-        for first in range(last_index): # 0 to last_index - 1
+        for first in range(last_index):  # 0 to last_index - 1
 
             # Getting the indices that we will transform
             indices = np.arange(first, len(cD), step_size)
@@ -274,6 +275,7 @@ def iswt(coeffs, wavelet):
             output[indices] = (x1 + x2)/2.
 
     return output
+
 
 def iswt2(coeffs, wavelet):
     """
@@ -317,9 +319,9 @@ def iswt2(coeffs, wavelet):
 
     """
 
-    output = coeffs[-1][0].copy() # Avoid modification of input data
+    output = coeffs[-1][0].copy()  # Avoid modification of input data
 
-    #num_levels, equivalent to the decomposition level, n
+    # num_levels, equivalent to the decomposition level, n
     num_levels = len(coeffs)
     for j in range(num_levels,0,-1):
         step_size = int(pow(2, j-1))
@@ -329,17 +331,17 @@ def iswt2(coeffs, wavelet):
         assert(cH.shape == cV.shape)
         assert(cH.shape == cD.shape)
         assert(cH.shape[0] == cH.shape[0])
-        for first_h in range(last_index): # 0 to last_index - 1
-            for first_w in range(last_index): # 0 to last_index - 1
+        for first_h in range(last_index):  # 0 to last_index - 1
+            for first_w in range(last_index):  # 0 to last_index - 1
                 # Getting the indices that we will transform
                 indices_h = slice(first_h, cH.shape[0], step_size)
                 indices_w = slice(first_w, cH.shape[1], step_size)
-                 
+
                 even_idx_h = slice(first_h, cH.shape[0], 2*step_size)
                 even_idx_w = slice(first_w, cH.shape[1], 2*step_size)
                 odd_idx_h = slice(first_h + step_size, cH.shape[0], 2*step_size)
                 odd_idx_w = slice(first_w + step_size, cH.shape[1], 2*step_size)
-                 
+
                 # perform the inverse dwt on the selected indices,
                 # making sure to use periodic boundary conditions
                 x1 = idwt2((output[even_idx_h, even_idx_w],

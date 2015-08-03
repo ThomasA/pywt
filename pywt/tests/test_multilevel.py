@@ -66,7 +66,7 @@ def test_swt_iswt_integration():
     max_level = 3
     wavelets = pywt.wavelist()
     if 'dmey' in wavelets:
-        wavelets.remove('dmey') # The 'dmey' wavelet seems to be a bit special - disregard it for now
+        wavelets.remove('dmey')  # The 'dmey' wavelet seems to be a bit special - disregard it for now
     for current_wavelet_str in wavelets:
         current_wavelet = pywt.Wavelet(current_wavelet_str)
         input_length_power = np.ceil(np.log2(max(current_wavelet.dec_len, current_wavelet.rec_len)))
@@ -91,7 +91,7 @@ def test_swt2_iswt2_integration():
     max_level = 3
     wavelets = pywt.wavelist()
     if 'dmey' in wavelets:
-        wavelets.remove('dmey') # The 'dmey' wavelet seems to be a bit special - disregard it for now
+        wavelets.remove('dmey')  # The 'dmey' wavelet seems to be a bit special - disregard it for now
     for current_wavelet_str in wavelets:
         current_wavelet = pywt.Wavelet(current_wavelet_str)
         input_length_power = np.ceil(np.log2(max(current_wavelet.dec_len, current_wavelet.rec_len)))
